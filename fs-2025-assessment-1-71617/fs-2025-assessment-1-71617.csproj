@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Controller\" />
-    <Folder Include="DIOs\" />
     <Folder Include="Background\" />
     <Folder Include="Tests\" />
   </ItemGroup>

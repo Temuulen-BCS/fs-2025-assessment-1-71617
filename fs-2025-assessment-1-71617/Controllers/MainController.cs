@@ -11,7 +11,7 @@ namespace fs_2025_assessment_1_71617.Controllers
     public class StationsV1Controller : ControllerBase
     {
         private readonly IStationService _service;
-        private readonly IMemoryCache _cach
+        private readonly IMemoryCache _cache;
         private readonly TimeZoneInfo _dublinTz;
 
         public StationsV1Controller(IStationService service, IMemoryCache cache)

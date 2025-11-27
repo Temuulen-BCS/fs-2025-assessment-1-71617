@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "e17a13a4-fb09-4a70-b3a7-aac178e60aa9",
+		"name": "V1 Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42680422"
+	},
+	"item": [
+		{
+			"name": "Stations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Swagger UI HTML page is loaded\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"<title>Swagger UI</title>\");",
+							"    pm.expect(pm.response.text()).to.include(\"<div id=\\\"swagger-ui\\\"></div>\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https://localhost:7234/api/v1/stations}}/swagger/index.html",
+					"host": [
+						"{{https://localhost:7234/api/v1/stations}}"
+					],
+					"path": [
+						"swagger",
+						"index.html"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Stations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test for successful status code (200-299)",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.be.within(200, 299);",
+							"});",
+							"",
+							"// Test that response body is not empty",
+							"pm.test(\"Response body is not empty\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty;",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"number\": 2006,\r\n    \"contract_Name\": \"montreal\",\r\n    \"name\": \"MONT-ROYAL / ST-LAURENT\",\r\n    \"address\": \"Avenue du Mont-Royal, Montréal\",\r\n    \"position\": {\r\n      \"lat\": 45.5180,\r\n      \"lng\": -73.5772\r\n    },\r\n    \"bike_Stands\": 28,\r\n    \"available_Bike_Stands\": 10,\r\n    \"available_Bikes\": 18,\r\n    \"status\": \"OPEN\",\r\n    \"last_Update\": 1729065138000\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7234/api/v1/stations",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7234",
+					"path": [
+						"api",
+						"v1",
+						"stations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1. Check for status code 200 (success) or 404 (not found)",
+							"pm.test(\"Status code is 200 or 404\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+							"});",
+							"",
+							"// 2. Check that response body contains a 'message' property",
+							"pm.test(\"Response body has 'message' property\", function () {",
+							"    var jsonData = {};",
+							"    try {",
+							"        jsonData = pm.response.json();",
+							"    } catch (e) {",
+							"        // If not JSON, fail the test",
+							"        pm.expect.fail(\"Response is not valid JSON\");",
+							"    }",
+							"    pm.expect(jsonData).to.have.property(\"message\");",
+							"});",
+							"",
+							"// 3. Log the message from the response body for debugging",
+							"try {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(\"Message from response:\", jsonData.message);",
+							"} catch (e) {",
+							"    console.log(\"Could not parse response body as JSON.\");",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{https://localhost:7234/api/v1/stations}}/api/v1/stations/12",
+					"host": [
+						"{{https://localhost:7234/api/v1/stations}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"stations",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201 or 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r",
+							"});\r",
+							"\r",
+							"let jsonData;\r",
+							"try {\r",
+							"    jsonData = pm.response.json();\r",
+							"} catch (e) {\r",
+							"    jsonData = null;\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Response is valid JSON\", function () {\r",
+							"    pm.expect(jsonData).to.be.an(\"object\", \"Response is not JSON\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https://localhost:7234/api/v1/stations}}/api/v1/stations/11",
+					"host": [
+						"{{https://localhost:7234/api/v1/stations}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"stations",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"number\": 33,\r\n  \"contract_Name\": \"Temuulen\",\r\n  \"name\": \"Temka\",\r\n  \"address\": \"237 Long road\",\r\n  \"position\": {\r\n    \"lat\": 0,\r\n    \"lng\": 0\r\n  },\r\n  \"bike_Stands\": 0,\r\n  \"available_Bike_Stands\": 0,\r\n  \"available_Bikes\": 0,\r\n  \"status\": \"Open\",\r\n  \"last_Update\": 0\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{https://localhost:7234/api/v1/stations}}/api/v1/stations/33",
+					"host": [
+						"{{https://localhost:7234/api/v1/stations}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"stations",
+						"33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Summary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is not empty\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty;",
+							"});",
+							"",
+							"try {",
+							"    var jsonData = pm.response.json();",
+							"    pm.test(\"Response is valid JSON\", function () {",
+							"        pm.expect(jsonData).to.be.an(\"object\");",
+							"    });",
+							"    // Optionally check for key properties if known",
+							"    // Example: pm.expect(jsonData).to.have.property(\"yourKey\");",
+							"} catch (e) {",
+							"    pm.test(\"Response is valid JSON\", function () {",
+							"        pm.expect.fail(\"Response body is not valid JSON\");",
+							"    });",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{https://localhost:7234/api/v1/stations}}/api/v1/stations/summary",
+					"host": [
+						"{{https://localhost:7234/api/v1/stations}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"stations",
+						"summary"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "https://localhost:7234/api/v1/stations",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

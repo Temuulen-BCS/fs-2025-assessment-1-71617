@@ -1,0 +1,63 @@
+﻿@page "/stations/{Number:int}"
+
+@using BikeStation.UI.Models
+@using BikeStation.UI.Services
+@inject StationsApiClient Api
+@inject NavigationManager Nav
+
+<h3>Station Details</h3>
+
+@if (station == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="card p-3 mt-3" style="max-width: 600px;">
+        <h4>@station.Name</h4>
+        <p><b>Station #:</b> @station.Number</p>
+        <p><b>Address:</b> @station.Address</p>
+
+        <p><b>Status:</b> @station.Status</p>
+
+        <p><b>Bikes Available:</b> @station.AvailableBikes</p>
+        <p><b>Bike Stands:</b> @station.BikeStands</p>
+
+        <p><b>Occupancy:</b> @station.Occupancy.ToString("P0")</p>
+
+        <p><b>Coordinates:</b> (@station.Lat, @station.Lng)</p>
+
+        <p><b>Last Update:</b> @station.LastUpdateLocal.ToLocalTime().ToString("g")</p>
+
+        <div class="mt-3">
+            <button class="btn btn-secondary" @onclick="GoBack">Back</button>
+            <button class="btn btn-danger ms-2" @onclick="DeleteStation">Delete</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public int Number { get; set; }
+
+    private StationDto? station;
+
+    protected override async Task OnInitializedAsync()
+    {
+        station = await Api.GetStationAsync(Number);
+    }
+
+    private void GoBack()
+    {
+        Nav.NavigateTo("/stations");
+    }
+
+    private async Task DeleteStation()
+    {
+        var ok = await Api.DeleteStationAsync(Number);
+
+        if (ok)
+            Nav.NavigateTo("/stations", true);
+        else
+            Console.WriteLine("Delete failed.");
+    }
+}

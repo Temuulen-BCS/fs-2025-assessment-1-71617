@@ -1,0 +1,126 @@
+﻿@page "/stations"
+@rendermode InteractiveServer
+
+@using BikeStation.UI.Models
+@using BikeStation.UI.Services
+@inject StationsApiClient Api
+@inject NavigationManager Nav
+
+<h3>Bike Stations</h3>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+@if (summary is not null)
+{
+    <div class="card p-3 mb-3">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="mb-1"><strong>Total Stations</strong></p>
+                <p class="mb-0">@summary.TotalStations</p>
+            </div>
+            <div class="col-md-3">
+                <p class="mb-1"><strong>Total Bike Stands</strong></p>
+                <p class="mb-0">@summary.TotalBikeStands</p>
+            </div>
+            <div class="col-md-3">
+                <p class="mb-1"><strong>Total Available Bikes</strong></p>
+                <p class="mb-0">@summary.TotalAvailableBikes</p>
+            </div>
+            <div class="col-md-3">
+                <p class="mb-1"><strong>Status</strong></p>
+                <p class="mb-0">Open: @summary.OpenCount | Closed: @summary.ClosedCount</p>
+            </div>
+        </div>
+    </div>
+}
+
+<StationFilter @bind-Search="search"
+               @bind-Status="status"
+               @bind-MinBikes="minBikes"
+               OnApply="LoadStations"
+               OnClear="ClearFilters" />
+
+@if (isLoading)
+{
+    <p>Loading stations...</p>
+}
+else
+{
+    <StationList Stations="stations"
+                 @bind-SelectedNumber="selectedNumber"
+                 OnSelect="OnStationSelected" />
+}
+
+@code {
+    private List<StationDto> stations = new();
+    private StationSummary? summary;
+
+    private string? search;
+    private string? status;
+    private int? minBikes;
+
+    private int? selectedNumber;
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSummary();
+        await LoadStations();
+    }
+
+    private async Task LoadSummary()
+    {
+        try
+        {
+            summary = await Api.GetSummaryAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Failed to load summary: {ex.Message}";
+        }
+    }
+
+    private async Task LoadStations()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            stations = await Api.GetStationsAsync(
+                status: string.IsNullOrWhiteSpace(status) ? null : status,
+                q: string.IsNullOrWhiteSpace(search) ? null : search,
+                minBikes: minBikes is null or 0 ? null : minBikes,
+                sort: "name",
+                page: 1,
+                pageSize: 50);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Failed to load stations: {ex.Message}";
+            stations = new List<StationDto>();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task ClearFilters()
+    {
+        search = null;
+        status = null;
+        minBikes = null;
+        await LoadStations();
+    }
+
+    private void OnStationSelected(int number)
+    {
+        selectedNumber = number;
+        Nav.NavigateTo($"/stations/{number}");
+    }
+}

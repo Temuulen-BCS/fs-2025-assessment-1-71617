@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fs-2025-assessment-1-71617", "fs-2025-assessment-1-71617\fs-2025-assessment-1-71617.csproj", "{940570F9-4B3F-456A-8EA9-F013BED25F68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeStation.UI", "BikeStation.UI\BikeStation.UI.csproj", "{CBC51585-C827-4FB8-B17C-FBC97E7CE6D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeStation.UI", "BikeStation.UI\BikeStation.UI.csproj", "{CBC51585-C827-4FB8-B17C-FBC97E7CE6D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeStation.Tests", "BikeStation.Tests\BikeStation.Tests.csproj", "{6A9DFCC5-89D4-4CD0-BE75-B0C5D5C491FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{CBC51585-C827-4FB8-B17C-FBC97E7CE6D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC51585-C827-4FB8-B17C-FBC97E7CE6D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBC51585-C827-4FB8-B17C-FBC97E7CE6D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A9DFCC5-89D4-4CD0-BE75-B0C5D5C491FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A9DFCC5-89D4-4CD0-BE75-B0C5D5C491FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A9DFCC5-89D4-4CD0-BE75-B0C5D5C491FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A9DFCC5-89D4-4CD0-BE75-B0C5D5C491FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
